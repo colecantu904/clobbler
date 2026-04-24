@@ -87,16 +87,12 @@ answers = []
 # this works?
 def find_solutions( board : Board, pieces : list[Piece], depth=0) -> list:
     global answers
-    if depth > 10:
-        print_board(board.board)
-        print()
+    
     if len(answers) >= 1:
         return
     if board.is_board_complete():
         #return [{"board" : copy.deepcopy(board.board), "moves" : copy.deepcopy(board.moves)}]
         answers.append({"board" : copy.deepcopy(board.board), "moves" : copy.deepcopy(board.moves)})
-        print('answer found')
-        print_board(board.board)
         return
     # if len(board.played_pieces) > 3:
     #     return [{"board" : copy.deepcopy(board.board), "moves" : copy.deepcopy(board.moves)}]
@@ -109,11 +105,16 @@ def find_solutions( board : Board, pieces : list[Piece], depth=0) -> list:
         for p in pieces:
             for rot in range(len(p.apr)):
                 for dir in range(2):
+                    #if depth != 0 or p.id == 2:
+                        
                     move = board.play_piece(p, rot, dir)
                     
                     if move:
                         #branch_answers = find_solutions(board, pieces, depth+1)
                         find_solutions(board, pieces, depth+1)
+                        
+                        # if answer != None:
+                        #     return answer
                         
                         # for sol in branch_answers:
                         #     if sol not in local_answers:
@@ -121,9 +122,10 @@ def find_solutions( board : Board, pieces : list[Piece], depth=0) -> list:
                     
                         board.unplay_last_piece()
                     
-                        if len(answers) >= 1:
-                            return
-        
+                    if len(answers) >= 1:
+                        return
+                        print(f'no sols found on {p.id}')
+            
         #return local_answers
         return
 
@@ -180,16 +182,21 @@ if __name__ == "__main__":
     # b.play_piece(pieces[11], 3, 0)
     # print_board(b.board)
     
-    
-    
     # b.place = (4, 0)
     # b.play_piece(pieces[11], 3, 0)
     # print_board(b.board)
     
     # playing with fire...
-    #find_solutions(b, pieces)
+    
+    # RIGHT NOW IT IS LOOKING FOR JUST ONE POSSIBLE SOLUTION IN ANSWERS
+    find_solutions(b, pieces)
     
     #print(answers)
+    print_board(answers[0]['board'])
+    
+    print(len(answers))
+    
+    #print_board(answers[3]['board'])
     
     #save_test_data( answers, pieces )
     

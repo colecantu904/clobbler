@@ -162,7 +162,7 @@ class Board:
                             return False
 
                     if piece.apr[rot]['schema'][(piece.apr[rot]['dim'][0] - 1) - i][j] != 0:
-                        board_cords_to_change.append(((piece.apr[rot]['dim'][0] - 1) - i, place[1] + j))
+                        board_cords_to_change.append((place[0] - i, place[1] + j))
         
         for c in board_cords_to_change:
             self.board[c[0]][c[1]] = piece.id
